@@ -55,13 +55,13 @@ void InitAllegro(int W, int H)
 	//initialize font
 	al_init_font_addon(); // initialize the font addon
 	al_init_ttf_addon();// initialize the ttf (True Type Font) addon	 (get fonts here: http://www.1001freefonts.com/)
-	font = al_load_ttf_font("uchiyama.ttf", 12, 0); //secodn variable is size
+	//font = al_load_ttf_font("uchiyama.ttf", 12, 0); //secodn variable is size
 	//font = al_load_font("a4_font.tga", 0, 0); //size variable doesn't matter becasue the font is fixed-size 
-	if (!font)
+	/*if (!font)
 	{
 		printf("failed to create font!\n");
 		exit(0);
-	}
+	}*/
 }
 
 //End and clean up Allegro components
@@ -72,8 +72,8 @@ void EndAllegro()
 
 void main()
 {
-	int sw = 640;
-	int sh = 480;
+	int sw = 1280;
+	int sh = 720;
 	InitAllegro(sw, sh);
 
 	Game game;
