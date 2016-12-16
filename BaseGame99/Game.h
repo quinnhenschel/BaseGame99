@@ -5,7 +5,13 @@ public:
 	ALLEGRO_KEYBOARD_STATE key_state; //ALLEGRO_KEYBOARD_STATE is a "user define type" in Allegro
 	ALLEGRO_MOUSE_STATE mouse_state;
 
+
+	Player player;
+
+
 	ALLEGRO_BITMAP* bg;
+	ALLEGRO_BITMAP* player_bitmap;
+
 	//animatedObject player;
 
 	bool end;
@@ -16,5 +22,9 @@ public:
 	void Run();
 	void Update();
 	void Draw();
+
+
+	
+
 };
 

@@ -6,6 +6,8 @@ Game::Game()
 	bg = al_load_bitmap("testing_map.bmp");
 	end = false;
 
+	player_bitmap = al_load_bitmap("player.bmp");
+	player.SetBitmap(player_bitmap);
 }
 
 
@@ -35,6 +37,6 @@ void Game::Update()
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0, 0, 0);
-
+	al_draw_bitmap(player_bitmap, player.x_location, player.y_location, 0); 
 	al_flip_display();
 }
