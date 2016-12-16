@@ -10,3 +10,5 @@ using namespace std;
 //use font addon for writing text
 #include <allegro5/allegro_font.h> //fixed font
 #include <allegro5/allegro_ttf.h> //truetype font
+
+#include "Game.h"
