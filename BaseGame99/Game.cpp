@@ -171,8 +171,6 @@ void Game::Draw()
 	if (player.is_shooting == true)
 	{
 		al_draw_bitmap(player_attack_bitmap, player_attack.x_location, player_attack.y_location, 0);
-
-
 	}
 
 	al_flip_display();
