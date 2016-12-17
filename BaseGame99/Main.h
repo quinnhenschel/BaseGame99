@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "iostream"
 using namespace std;
+#include "math.h";
 
 #include "allegro5/allegro.h"
 //use image addon for loading images, dialog boxes, and primitive shapes
@@ -18,6 +19,8 @@ using namespace std;
 //4- In Linker/System set the SubSystem to Not Set if you want to see text window
 //http://alleg.sourceforge.net/a5docs/5.0.10/
 //
+
+
 
 #include "PlayerAttack.h"
 #include "Player.h"

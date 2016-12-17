@@ -17,6 +17,13 @@ public:
 	float gravity;
 	float air_time;
 
+	float player_attack_gravity;
+	float player_attack_air_time;
+
+	float angle;
+
+	int count;
+
 	//animatedObject player;
 
 	bool end;

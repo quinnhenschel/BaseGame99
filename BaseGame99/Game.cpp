@@ -10,9 +10,13 @@ Game::Game()
 	player.SetBitmap(player_bitmap);
 
 	air_time = 0;
+	player_attack_air_time = 0;
 
 	player_attack_bitmap = al_load_bitmap("player_attack.bmp");
 	player_attack.bmp = player_attack_bitmap;
+
+
+	count = 0;
 
 }
 
@@ -39,6 +43,7 @@ void Game::Update()
 	player.is_shooting = false;
 
 	gravity = air_time * air_time;
+	player_attack_gravity = player_attack_air_time * player_attack_air_time;
 
 	//if ((player.y_location + player.height) <= 600)
 	//{
@@ -101,31 +106,55 @@ void Game::Update()
 		player.y_location = player.y_location - 10;
 	}
 
-
 	al_get_mouse_state(&mouse_state);
+
+
+	/////////////////// ROTATION STUFF
+	//float d = (player.x_location - mouse_state.x)*(player.x_location - mouse_state.x) + (player.y_location - mouse_state.y)*(player.y_location - mouse_state.y);
+	//d = sqrt(d);
+
+	//float adj_over_hyp = (mouse_state.y - player.y_location) / d;
+
+	//float angle = acos(adj_over_hyp);
+
+	//cout << angle;
+	//cout << "\n";
+	////////////
+
+	
+	
 	if (mouse_state.buttons & 1) {
 		/* Primary (e.g. left) mouse button is held. */
 		player.is_shooting = true;
-		player_attack.x_speed = 5;
+		if (mouse_state.x > player.x_location)
+			player_attack.x_speed = 10;
+		else
+			player_attack.x_speed = -10;
+
+		if (count > 50)
+		{
+			player_attack.x_speed = -10;
+		}
+		if (player_attack.x_location < player.x_location)
+		{
+			count = 0;
+		}
+		//player_attack.y_speed = player_attack_gravity;
+		player_attack_air_time = player_attack_air_time + .05;
+
+		count++;
+
+		cout << mouse_state.x;
+		cout << "\n";
 	}
 	else
 	{
 		player.is_shooting = false;
 		player_attack.x_location = player.x_location;
 		player_attack.y_location = player.y_location;
+		player_attack_air_time = 0;
 	}
 
-
-	
-
-
-	
-
-		
-		
-
-	cout << player.is_shooting;
-	cout << "\n";
 
 
 
@@ -142,6 +171,8 @@ void Game::Draw()
 	if (player.is_shooting == true)
 	{
 		al_draw_bitmap(player_attack_bitmap, player_attack.x_location, player_attack.y_location, 0);
+
+
 	}
 
 	al_flip_display();
