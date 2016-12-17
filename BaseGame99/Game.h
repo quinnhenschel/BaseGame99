@@ -32,6 +32,8 @@ public:
 	~Game();
 
 	void Run();
+	bool Check_Collision(int direction);
+	bool Attack_LeftorRight();
 	void Update();
 	void Draw();
 

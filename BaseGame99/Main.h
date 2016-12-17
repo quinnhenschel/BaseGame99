@@ -1,7 +1,12 @@
+#define DOWN 1
+#define UP 2
+#define RIGHT 3
+#define LEFT 4
+
 #include <stdio.h>
 #include "iostream"
 using namespace std;
-#include "math.h";
+#include "math.h"
 
 #include "allegro5/allegro.h"
 //use image addon for loading images, dialog boxes, and primitive shapes
@@ -26,4 +31,6 @@ using namespace std;
 #include "Player.h"
 #include "GameObject.h"
 #include "Game.h"
+
+
 
