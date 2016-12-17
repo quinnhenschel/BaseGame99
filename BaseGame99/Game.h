@@ -7,10 +7,12 @@ public:
 
 
 	Player player;
+	PlayerAttack player_attack;
 
 
 	ALLEGRO_BITMAP* bg;
 	ALLEGRO_BITMAP* player_bitmap;
+	ALLEGRO_BITMAP* player_attack_bitmap;
 
 	float gravity;
 	float air_time;

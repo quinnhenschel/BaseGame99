@@ -11,6 +11,9 @@ Game::Game()
 
 	air_time = 0;
 
+	player_attack_bitmap = al_load_bitmap("player_attack.bmp");
+	player_attack.bmp = player_attack_bitmap;
+
 }
 
 
@@ -33,6 +36,7 @@ void Game::Update()
 {
 	player.x_speed = 0;
 	player.y_speed = 0;
+	player.is_shooting = false;
 
 	gravity = air_time * air_time;
 
@@ -42,9 +46,11 @@ void Game::Update()
 	//}
 	
 	al_get_keyboard_state(&key_state);
+	al_get_mouse_state(&mouse_state);
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
 		end = true;
+
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
@@ -68,10 +74,10 @@ void Game::Update()
 			player.x_speed = -3;
 	}
 
+
 	ALLEGRO_COLOR read_background = al_get_pixel(bg, player.x_location, player.y_location + player.y_speed + player.height);
 	unsigned char r1, g1, b1;
 	al_unmap_rgb(read_background, &r1, &g1, &b1);
-
 	if (r1 == 0 && b1 == 0 && g1 == 0)
 	{
 		player.y_speed = 0;
@@ -83,10 +89,12 @@ void Game::Update()
 		air_time = air_time + .1;
 	}
 
+
 	if (al_key_down(&key_state, ALLEGRO_KEY_W))
 	{
 		
 	}
+
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_SPACE))
 	{
@@ -94,6 +102,20 @@ void Game::Update()
 	}
 
 
+	al_get_mouse_state(&mouse_state);
+	if (mouse_state.buttons & 1) {
+		/* Primary (e.g. left) mouse button is held. */
+		player.is_shooting = true;
+		player_attack.x_speed = 5;
+	}
+	else
+	{
+		player.is_shooting = false;
+		player_attack.x_location = player.x_location;
+		player_attack.y_location = player.y_location;
+	}
+
+
 	
 
 
@@ -102,20 +124,25 @@ void Game::Update()
 		
 		
 
-	cout << gravity;
+	cout << player.is_shooting;
 	cout << "\n";
-	cout << air_time;
-	cout << "\n";
-	cout << "\n";
+
 
 
 
 	player.Move();
+	player_attack.Move();
 }
 
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0, 0, 0);
 	al_draw_bitmap(player_bitmap, player.x_location, player.y_location, 0);
+
+	if (player.is_shooting == true)
+	{
+		al_draw_bitmap(player_attack_bitmap, player_attack.x_location, player_attack.y_location, 0);
+	}
+
 	al_flip_display();
 }

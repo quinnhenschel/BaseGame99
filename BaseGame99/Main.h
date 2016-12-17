@@ -19,6 +19,7 @@ using namespace std;
 //http://alleg.sourceforge.net/a5docs/5.0.10/
 //
 
+#include "PlayerAttack.h"
 #include "Player.h"
 #include "GameObject.h"
 #include "Game.h"

@@ -8,6 +8,8 @@ public:
 	int height;
 	int width;
 
+	bool is_shooting;
+
 	Player();
 	~Player();
 };
