@@ -12,6 +12,9 @@ public:
 	ALLEGRO_BITMAP* bg;
 	ALLEGRO_BITMAP* player_bitmap;
 
+	float gravity;
+	float air_time;
+
 	//animatedObject player;
 
 	bool end;
