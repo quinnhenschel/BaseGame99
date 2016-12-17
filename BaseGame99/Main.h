@@ -1,6 +1,12 @@
+#define DOWN 1
+#define UP 2
+#define RIGHT 3
+#define LEFT 4
+
 #include <stdio.h>
 #include "iostream"
 using namespace std;
+#include "math.h"
 
 #include "allegro5/allegro.h"
 //use image addon for loading images, dialog boxes, and primitive shapes
@@ -19,5 +25,12 @@ using namespace std;
 //http://alleg.sourceforge.net/a5docs/5.0.10/
 //
 
-#include "Physics.h"
+
+
+#include "PlayerAttack.h"
+#include "Player.h"
+#include "GameObject.h"
 #include "Game.h"
+
+
+
