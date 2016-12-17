@@ -16,23 +16,24 @@ void InitAllegro(int W, int H)
 	ALLEGRO_DISPLAY       *display = NULL;
 	ALLEGRO_DISPLAY_MODE   disp_data;
 
-	al_init(); // I'm not checking the return value for simplicity.
+	al_init();
 	al_init_image_addon();
 	al_init_primitives_addon();
 
 	al_get_display_mode(0, &disp_data);
 
 	al_set_new_display_flags(ALLEGRO_FULLSCREEN);
-	display = al_create_display(disp_data.width, disp_data.height);
+	
 
-	al_rest(3);
-	al_destroy_display(display);
-
+	//al_rest(3);
+	//al_destroy_display(display);
+	//not necissary as far as i know
 
 
 
 	//initialize display screen
 	display = al_create_display(W, H);
+	//display = al_create_display(disp_data.width, disp_data.height);
 	if (!display)
 	{
 		printf("failed to create display!\n");
@@ -40,7 +41,8 @@ void InitAllegro(int W, int H)
 	}
 	else
 	{
-		al_resize_display(display, disp_data.width, disp_data.height);
+		al_resize_display(display, W, H);
+		//al_resize_display(display, disp_data.width, disp_data.height);
 		printf("ok");
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 
