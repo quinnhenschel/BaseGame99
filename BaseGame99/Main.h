@@ -19,4 +19,5 @@ using namespace std;
 //http://alleg.sourceforge.net/a5docs/5.0.10/
 //
 
+#include "Physics.h"
 #include "Game.h"

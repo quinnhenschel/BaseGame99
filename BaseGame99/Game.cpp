@@ -30,6 +30,12 @@ void Game::Update()
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
 		end = true;
+
+	if (al_key_down(&key_state, ALLEGRO_KEY_A))
+	{
+		if (!physics.Collision(player, player.x + player.x_speed, player.y))
+			player.x += player.x_speed;
+	}
 }
 
 void Game::Draw()
