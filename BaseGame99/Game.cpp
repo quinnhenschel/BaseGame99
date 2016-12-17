@@ -46,7 +46,7 @@ void Game::Update()
 	if (al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
 		end = true;
 
-	if (al_key_down(&key_state, ALLEGRO_KEY_RIGHT))
+	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
 		/*ALLEGRO_COLOR read_background = al_get_pixel(bg, player.x_location + player.x_speed, player.y_location);
 		unsigned char r, g, b;
@@ -58,7 +58,7 @@ void Game::Update()
 	}
 		
 
-	if (al_key_down(&key_state, ALLEGRO_KEY_LEFT))
+	if (al_key_down(&key_state, ALLEGRO_KEY_A))
 	{
 		/*ALLEGRO_COLOR read_background = al_get_pixel(bg, player.x_location - player.x_speed, player.y_location);
 		unsigned char r, g, b;
@@ -83,10 +83,9 @@ void Game::Update()
 		air_time = air_time + .1;
 	}
 
-	if (al_key_down(&key_state, ALLEGRO_KEY_UP))
+	if (al_key_down(&key_state, ALLEGRO_KEY_W))
 	{
-		player.y_speed = -1;
-		air_time = 0;
+		
 	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_SPACE))
