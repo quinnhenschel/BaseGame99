@@ -7,6 +7,7 @@
 #include "iostream"
 using namespace std;
 #include "math.h"
+#include <sstream>
 
 #include "allegro5/allegro.h"
 //use image addon for loading images, dialog boxes, and primitive shapes
@@ -29,7 +30,9 @@ using namespace std;
 
 #include "PlayerAttack.h"
 #include "Player.h"
+#include "AnimatedObject.h"
 #include "GameObject.h"
+#include "Physics.h"
 #include "Game.h"
 
 

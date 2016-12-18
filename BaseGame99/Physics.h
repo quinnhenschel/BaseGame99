@@ -5,6 +5,6 @@ public:
 	Physics();
 	~Physics();
 	
-	bool Collision(GameObject* p, int x, int y);
+	bool Collision(ALLEGRO_BITMAP* bg, int x, int y);
 };
 

@@ -10,13 +10,13 @@ Physics::~Physics()
 {
 }
 
-bool Physics::Collision(GameObject* p, int x, int y)
+bool Physics::Collision(ALLEGRO_BITMAP* bg, int x, int y)
 {
 	bool is_collision = false;
 	/*int p_width = al_get_bitmap_width(p->bmp);
 	int p_height = al_get_bitmap_height(p->bmp);*/
 
-	ALLEGRO_COLOR c = al_get_pixel(p->bmp, x, y);
+	ALLEGRO_COLOR c = al_get_pixel(bg, x, y);
 	/*ALLEGRO_COLOR c_r = al_get_pixel(p->bmp, p->x + p_width, p->y);
 	ALLEGRO_COLOR c_bl = al_get_pixel(p->bmp, p->x, p->y + p_height);
 	ALLEGRO_COLOR c_br = al_get_pixel(p->bmp, p->x + p_width, p->y + p_height);
