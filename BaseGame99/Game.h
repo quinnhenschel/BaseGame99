@@ -25,6 +25,7 @@ public:
 
 	int count;
 
+
 	//animatedObject player;
 
 	bool end;
@@ -35,6 +36,7 @@ public:
 	void Run();
 	bool Check_Collision(int direction);
 	bool Attack_LeftorRight();
+	bool Throw_Boomerang();
 	void Update();
 	void Draw();
 

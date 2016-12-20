@@ -6,7 +6,7 @@ Player::Player()
 	bmp = al_load_bitmap("player.bmp");
 	height = al_get_bitmap_height(bmp);
 	width = al_get_bitmap_width(bmp);
-	is_shooting = false;
+	
 }
 
 

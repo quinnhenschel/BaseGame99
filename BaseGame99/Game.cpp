@@ -12,8 +12,8 @@ Game::Game()
 	air_time = 0;
 	/*player_attack_air_time = 0;*/
 
-	/*player_attack_bitmap = al_load_bitmap("player_attack.bmp");
-	player_attack.bmp = player_attack_bitmap;*/
+	player_attack_bitmap = al_load_bitmap("player_attack.bmp");
+	player_attack.bmp = player_attack_bitmap;
 
 
 	count = 0;
@@ -32,7 +32,7 @@ void Game::Run()
 	{
 		Update();
 		Draw();
-		al_rest(0.003);
+		al_rest(0.001);
 	}
 }
 
@@ -43,6 +43,60 @@ bool Game::Attack_LeftorRight()
 		return true;
 	else
 		return false;
+}
+
+bool Game::Throw_Boomerang()
+{
+	if (player_attack.state == 1)
+	{
+
+		player_attack.x_speed = 10;
+		count++;
+		if (count >= 100)
+		{
+			cout << "SET TO 2";
+			cout << "\n";
+			player_attack.state = 2;
+		}
+		return true;
+	}
+
+	if (player_attack.state == 2)
+	{
+		
+
+		if (player_attack.x_location > player.x_location)
+		{
+			player_attack.x_speed = -10;
+		}
+		else
+		{
+			player_attack.x_speed = 10;
+		}
+		if (player_attack.y_location < player.y_location)
+		{
+			player_attack.y_speed = +10;
+		}
+		else
+		{
+			player_attack.y_speed = -10;
+		}
+
+		float d = (player.x_location - player_attack.x_location)*(player.x_location - player_attack.x_location) + (player.y_location - player_attack.y_location)*(player.y_location - player_attack.y_location);
+		//needs math.h 
+		float distance = sqrt(d);
+
+
+		if (distance < 50.0)
+		{
+			player_attack.state = 3;
+		}
+		return true;
+	}
+	if (player_attack.state == 3)
+	{
+		return false;
+	}
 }
 
 void Game::Update()
@@ -98,47 +152,47 @@ void Game::Update()
 		player.y_location = player.y_location - 10;
 	}
 
+
 	al_get_mouse_state(&mouse_state);
 
-	/////////////////// ROTATION STUFF
-	//float d = (player.x_location - mouse_state.x)*(player.x_location - mouse_state.x) + (player.y_location - mouse_state.y)*(player.y_location - mouse_state.y);
-	//d = sqrt(d);
+	if (mouse_state.buttons & 1)
+		{
+			if (Attack_LeftorRight() == true)
+				player_attack.x_speed = 10;
+			else
+				player_attack.x_speed = -10;
 
-	//float adj_over_hyp = (mouse_state.y - player.y_location) / d;
+			player_attack.y_speed = 0;
 
-	//float angle = acos(adj_over_hyp);
 
-	//cout << angle;
-	//cout << "\n";
-	////////////
+			if (player.is_shooting == false)
+			{
+
+				player.is_shooting = true;
+				player_attack.state = 1;
+				count = 0;
+
+				player_attack.x_location = player.x_location;
+				player_attack.y_location = player.y_location;
+
+				
+			}
+				
+		}
+	
+	if (player.is_shooting == true)
+		Throw_Boomerang();
+	
+	if (Throw_Boomerang() == false)
+		player.is_shooting = false;
 
 	
 	
-	if (mouse_state.buttons & 1) {
-		/* Primary (e.g. left) mouse button is held. */
-		//player.is_shooting = true;
-		if (Attack_LeftorRight() == true)
-			player_attack.x_speed = 10;
-		else
-			player_attack.x_speed = -10;
+	cout << player.is_shooting;
+	cout << "\n";
+	
 
-		//needs to be replaced with timer stuff
-		if (count > 50)
-		{
-			player_attack.x_speed = -10;
-		}
-		if (player_attack.x_location < player.x_location)
-		{
-			count = 0;
-		}
-		//player_attack.y_speed = player_attack_gravity;
-		player_attack_air_time = player_attack_air_time + .05;
 
-		count++;
-
-		cout << mouse_state.x;
-		cout << "\n";
-	}
 	/*else
 	{
 		player.is_shooting = false;
@@ -150,7 +204,7 @@ void Game::Update()
 
 	player.Move();
 	player.Animate(&player);
-	/*player_attack.Move();*/
+	player_attack.Move();
 }
 
 void Game::Draw()
@@ -160,10 +214,10 @@ void Game::Draw()
 	al_draw_bitmap(player.bmp, player.x_location, player.y_location, 0);
 	
 
-	/*if (player.is_shooting == true)
+	if (player.is_shooting == true)
 	{
-		al_draw_bitmap(player_attack_bitmap, player_attack.x_location, player_attack.y_location, 0);
-	}*/
+		al_draw_bitmap(player_attack.bmp, player_attack.x_location, player_attack.y_location, 0);
+	}
 
 	al_flip_display();
 }

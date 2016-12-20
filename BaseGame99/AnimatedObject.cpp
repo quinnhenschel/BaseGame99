@@ -55,6 +55,8 @@ AnimatedObject::AnimatedObject()
 		animation_left[10] = al_load_bitmap("run_left11.png");
 		animation_right[11] = al_load_bitmap("run12.png");
 		animation_left[11] = al_load_bitmap("run_left12.png");
+
+		is_shooting = false;
 }
 
 

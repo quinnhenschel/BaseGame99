@@ -35,3 +35,11 @@ bool Physics::Collision(ALLEGRO_BITMAP* bg, int x, int y)
 
 	return is_collision;
 }
+
+float Physics::Distance(int x1, int y1, int x2, int y2)
+{
+	float d = (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+	//needs math.h 
+	d = sqrt(d);
+	return d;
+}
