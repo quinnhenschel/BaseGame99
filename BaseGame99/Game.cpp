@@ -32,7 +32,7 @@ void Game::Run()
 	{
 		Update();
 		Draw();
-		al_rest(0.001);
+		//al_rest(0.003);
 	}
 }
 
@@ -49,7 +49,6 @@ bool Game::Throw_Boomerang()
 {
 	if (player_attack.state == 1)
 	{
-
 		player_attack.x_speed = 10;
 		count++;
 		if (count >= 100)
@@ -63,46 +62,31 @@ bool Game::Throw_Boomerang()
 
 	if (player_attack.state == 2)
 	{
-		
-
 		if (player_attack.x_location > player.x_location)
-		{
 			player_attack.x_speed = -10;
-		}
 		else
-		{
 			player_attack.x_speed = 10;
-		}
 		if (player_attack.y_location < player.y_location)
-		{
 			player_attack.y_speed = +10;
-		}
 		else
-		{
 			player_attack.y_speed = -10;
-		}
 
 		float d = (player.x_location - player_attack.x_location)*(player.x_location - player_attack.x_location) + (player.y_location - player_attack.y_location)*(player.y_location - player_attack.y_location);
-		//needs math.h 
 		float distance = sqrt(d);
 
-
 		if (distance < 50.0)
-		{
 			player_attack.state = 3;
-		}
+
 		return true;
 	}
+
 	if (player_attack.state == 3)
-	{
 		return false;
-	}
 }
 
 void Game::Update()
 {
 	player.x_speed = player.y_speed = player.state = 0;
-	//player.is_shooting = false;
 
 	/*gravity = air_time * air_time;*/
 	/*player_attack_gravity = player_attack_air_time * player_attack_air_time;*/
@@ -138,7 +122,6 @@ void Game::Update()
 	{
 		player.y_speed = 3;
 	}
-
 	
 	/*if (!physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
 	{
@@ -154,65 +137,40 @@ void Game::Update()
 
 
 	al_get_mouse_state(&mouse_state);
-
 	if (mouse_state.buttons & 1)
 		{
 			if (Attack_LeftorRight() == true)
 				player_attack.x_speed = 10;
 			else
 				player_attack.x_speed = -10;
-
 			player_attack.y_speed = 0;
-
 
 			if (player.is_shooting == false)
 			{
-
 				player.is_shooting = true;
 				player_attack.state = 1;
 				count = 0;
-
 				player_attack.x_location = player.x_location;
 				player_attack.y_location = player.y_location;
-
-				
-			}
-				
+			}		
 		}
-	
+
 	if (player.is_shooting == true)
 		Throw_Boomerang();
 	
 	if (Throw_Boomerang() == false)
 		player.is_shooting = false;
 
-	
-	
-	cout << player.is_shooting;
-	cout << "\n";
-	
-
-
-	/*else
-	{
-		player.is_shooting = false;
-		player_attack.x_location = player.x_location;
-		player_attack.y_location = player.y_location;
-		player_attack_air_time = 0;
-	}*/
-
-
 	player.Move();
 	player.Animate(&player);
 	player_attack.Move();
+	player_attack.Animate(&player_attack);
 }
 
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0, 0, 0);
-	
 	al_draw_bitmap(player.bmp, player.x_location, player.y_location, 0);
-	
 
 	if (player.is_shooting == true)
 	{
