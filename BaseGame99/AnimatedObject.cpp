@@ -79,7 +79,6 @@ void AnimatedObject::Animate(AnimatedObject* p)
 			if (state == 2)
 				p->SetBitmap(animation_left[frame]);
 			frame++;
-			cout << frame << "\n";
 		}
 		increment++;
 		if (run_cycle % 2 != 0)
