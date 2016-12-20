@@ -6,8 +6,8 @@ public:
 	int run_cycle;
 	int frame;
 	int increment;
-	int curr_height;
-	int curr_width;
+	int height;
+	int width;
 	ALLEGRO_BITMAP* animation_right[11];
 	ALLEGRO_BITMAP* animation_left[11];
 

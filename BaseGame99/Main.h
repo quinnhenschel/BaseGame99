@@ -1,7 +1,4 @@
-#define DOWN 1
-#define UP 2
-#define RIGHT 3
-#define LEFT 4
+#define JUMP_HEIGHT 5;
 
 #include <stdio.h>
 #include "iostream"

@@ -24,7 +24,7 @@ void InitAllegro(int W, int H)
 	al_get_display_mode(0, &disp_data);
 
 	al_set_new_display_flags(ALLEGRO_FULLSCREEN);
-	display = al_create_display(disp_data.width, disp_data.height);
+	/*display = al_create_display(disp_data.width, disp_data.height);*/
 
 	al_rest(3);
 	al_destroy_display(display);
@@ -39,13 +39,13 @@ void InitAllegro(int W, int H)
 		printf("failed to create display!\n");
 		exit(0);
 	}
-	else
+	/*else
 	{
 		al_resize_display(display, disp_data.width, disp_data.height);
 		printf("ok");
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 
-	}
+	}*/
 
 	//initialize keyboard
 	if (!al_install_keyboard())

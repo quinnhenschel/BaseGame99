@@ -103,6 +103,6 @@ void AnimatedObject::Animate(AnimatedObject* p)
 
 void AnimatedObject::GetDimensions()
 {
-	curr_height = al_get_bitmap_height(bmp);
-	curr_width = al_get_bitmap_width(bmp);
+	height = al_get_bitmap_height(bmp);
+	width = al_get_bitmap_width(bmp);
 }
