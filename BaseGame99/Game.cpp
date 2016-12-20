@@ -50,7 +50,7 @@ void Game::Update()
 	player.x_speed = player.y_speed = player.state = 0;
 	//player.is_shooting = false;
 
-	/*gravity = air_time * air_time;*/
+	gravity = air_time * air_time;
 	/*player_attack_gravity = player_attack_air_time * player_attack_air_time;*/
 	
 	al_get_keyboard_state(&key_state);
@@ -64,38 +64,33 @@ void Game::Update()
 	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
 		player.state = 1;
-		if (!physics.Collision(bg, player.x_location + player.curr_width + 3, player.y_location) && !physics.Collision(bg, player.x_location + player.curr_width + 3, player.y_location + player.curr_height - 5))
+		if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5))
 			player.x_speed = 3;
 	}	
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_A))
 	{
 		player.state = 2;
-		if (!physics.Collision(bg, player.x_location - 3, player.y_location) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.curr_height - 5))
+		if (!physics.Collision(bg, player.x_location - 3, player.y_location) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5))
 			player.x_speed = -3;
 	}
 
-	if (physics.Collision(bg, player.x_location + player.curr_width, player.y_location + player.curr_height) || physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
+	if (physics.Collision(bg, player.x_location + player.width, player.y_location + player.height) || physics.Collision(bg, player.x_location, player.y_location + player.height))
 	{
-		player.y_speed = 0;
-	}
+		gravity = 0;
+		air_time = 0;
+		physics.GroundCheck(&player, bg);
+	}	
 
-	if (!physics.Collision(bg, player.x_location + player.curr_width, player.y_location + player.curr_height) && !physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
-	{
-		player.y_speed = 3;
-	}
-
-	
-	/*if (!physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
+	if (!physics.Collision(bg, player.x_location + player.width, player.y_location + player.height) && !physics.Collision(bg, player.x_location, player.y_location + player.height))
 	{
 		player.y_speed = gravity;
 		air_time += .1;
-	}*/
+	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_SPACE))
 	{
-		// the 10 controls jump height will make variable later
-		player.y_location = player.y_location - 10;
+		player.y_location = player.y_location - JUMP_HEIGHT;
 	}
 
 	al_get_mouse_state(&mouse_state);
