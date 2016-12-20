@@ -64,15 +64,15 @@ void Game::Update()
 	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
 		player.state = 1;
-		if (!physics.Collision(bg, player.x_location + player.curr_width + 5, player.y_location) && !physics.Collision(bg, player.x_location + player.curr_width + 5, player.y_location + player.curr_height - 5))
-			player.x_speed = 5;
+		if (!physics.Collision(bg, player.x_location + player.curr_width + 3, player.y_location) && !physics.Collision(bg, player.x_location + player.curr_width + 3, player.y_location + player.curr_height - 5))
+			player.x_speed = 3;
 	}	
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_A))
 	{
 		player.state = 2;
-		if (!physics.Collision(bg, player.x_location - 5, player.y_location) && !physics.Collision(bg, player.x_location - 5, player.y_location + player.curr_height - 5))
-			player.x_speed = -5;
+		if (!physics.Collision(bg, player.x_location - 3, player.y_location) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.curr_height - 5))
+			player.x_speed = -3;
 	}
 
 	if (physics.Collision(bg, player.x_location + player.curr_width, player.y_location + player.curr_height) || physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
@@ -85,7 +85,6 @@ void Game::Update()
 		player.y_speed = 3;
 	}
 
-	cout << player.x_location << ", " << player.y_location << "\n";
 	
 	/*if (!physics.Collision(bg, player.x_location, player.y_location + player.curr_height))
 	{
@@ -100,7 +99,6 @@ void Game::Update()
 	}
 
 	al_get_mouse_state(&mouse_state);
-
 
 	/////////////////// ROTATION STUFF
 	//float d = (player.x_location - mouse_state.x)*(player.x_location - mouse_state.x) + (player.y_location - mouse_state.y)*(player.y_location - mouse_state.y);
@@ -150,9 +148,6 @@ void Game::Update()
 	}*/
 
 
-
-
-
 	player.Move();
 	player.Animate(&player);
 	/*player_attack.Move();*/
@@ -161,7 +156,9 @@ void Game::Update()
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0, 0, 0);
+	
 	al_draw_bitmap(player.bmp, player.x_location, player.y_location, 0);
+	
 
 	/*if (player.is_shooting == true)
 	{

@@ -8,8 +8,8 @@ public:
 	int increment;
 	int curr_height;
 	int curr_width;
-	ALLEGRO_BITMAP* animation_right[10];
-	ALLEGRO_BITMAP* animation_left[10];
+	ALLEGRO_BITMAP* animation_right[11];
+	ALLEGRO_BITMAP* animation_left[11];
 
 	AnimatedObject();
 	~AnimatedObject();
