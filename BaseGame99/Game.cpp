@@ -6,6 +6,8 @@ Game::Game()
 	bg = al_load_bitmap("testing_map.bmp");
 	end = false;
 
+	brush = al_load_bitmap("brush.png");
+
 	//player_bitmap = al_load_bitmap("player.bmp");
 	//player.SetBitmap(player_bitmap);
 
@@ -47,6 +49,9 @@ bool Game::Attack_LeftorRight()
 
 void Game::Update()
 {
+	player.GivePower(1);
+	player.GivePower(2);
+
 	player.x_speed = player.y_speed = player.state = 0;
 	//player.is_shooting = false;
 
@@ -93,6 +98,12 @@ void Game::Update()
 		player.y_location = player.y_location - JUMP_HEIGHT;
 	}
 
+	if (al_key_down(&key_state, ALLEGRO_KEY_ENTER))
+	{
+		player.SetPower();
+		cout << player.curr_power << "\n";
+	}
+
 	al_get_mouse_state(&mouse_state);
 
 	/////////////////// ROTATION STUFF
@@ -131,9 +142,26 @@ void Game::Update()
 
 		count++;
 
-		cout << mouse_state.x;
-		cout << "\n";
+		cout << mouse_state.x << ", " << mouse_state.y << "\n";
 	}
+
+	if (mouse_state.buttons & 2)
+	{
+		if (player.GetPower() == 1)
+			basic.DrawLine(bg, mouse_state.x - 5, mouse_state.y - 5, brush);
+		if (player.GetPower() == 2)
+		{
+			if (spring.clicked == 0)
+			{
+				spring.AddSpring(mouse_state.x - 10, mouse_state.y - 10);
+				spring.Wait();
+			}
+		}
+	}
+
+	if (spring.clicked > 0)
+		spring.Wait();
+	
 	/*else
 	{
 		player.is_shooting = false;
@@ -151,7 +179,8 @@ void Game::Update()
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0, 0, 0);
-	
+	al_draw_bitmap(brush, mouse_state.x - 5, mouse_state.y - 5, 0);
+	spring.Draw();
 	al_draw_bitmap(player.bmp, player.x_location, player.y_location, 0);
 	
 

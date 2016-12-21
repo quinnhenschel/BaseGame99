@@ -7,11 +7,15 @@ public:
 
 	Physics physics;
 
+	PowerUp basic;
+	Spring spring;
+
 	AnimatedObject player;
 	PlayerAttack player_attack;
 
 
 	ALLEGRO_BITMAP* bg;
+	ALLEGRO_BITMAP* brush;
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
 
