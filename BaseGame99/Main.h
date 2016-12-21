@@ -29,6 +29,8 @@ using namespace std;
 #include "Player.h"
 #include "AnimatedObject.h"
 #include "GameObject.h"
+#include "PowerUp.h"
+#include "Spring.h"
 #include "Physics.h"
 #include "Game.h"
 
