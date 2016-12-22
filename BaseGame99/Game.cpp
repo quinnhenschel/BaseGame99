@@ -3,8 +3,12 @@
 
 Game::Game()
 {
-	bg = al_load_bitmap("testing_map.bmp");
+	bg = al_load_bitmap("level1.bmp");
+	bgw = al_get_bitmap_width(bg);
+	bgh = al_get_bitmap_height(bg);
 	end = false;
+
+	x_scroll = y_scroll = 0;
 
 	brush = al_load_bitmap("brush.png");
 
@@ -20,6 +24,9 @@ Game::Game()
 
 	count = 0;
 
+	clicked = 0;
+	player.GivePower(1);
+	player.GivePower(2);
 }
 
 
@@ -47,11 +54,15 @@ bool Game::Attack_LeftorRight()
 		return false;
 }
 
+void Game::Wait()
+{
+	clicked++;
+	if (clicked > 20)
+		clicked = 0;
+}
+
 void Game::Update()
 {
-	player.GivePower(1);
-	player.GivePower(2);
-
 	player.x_speed = player.y_speed = player.state = 0;
 	//player.is_shooting = false;
 
@@ -69,28 +80,42 @@ void Game::Update()
 	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
 		player.state = 1;
-		if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5))
-			player.x_speed = 3;
+			if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5, 0, 0, 0))
+			{
+				if (x_scroll < bgw - 1280 && player.x_location > 1280 / 2)
+					x_scroll += 3;
+				player.x_speed = 3;
+			}
 	}	
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_A))
 	{
 		player.state = 2;
-		if (!physics.Collision(bg, player.x_location - 3, player.y_location) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5))
-			player.x_speed = -3;
+			if (!physics.Collision(bg, player.x_location - 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5, 0, 0, 0))
+			{
+				if (x_scroll > 0 && player.x_location < 1280 / 2)
+					x_scroll -= 3;
+				player.x_speed = -3;
+			}
 	}
 
-	if (physics.Collision(bg, player.x_location + player.width, player.y_location + player.height) || physics.Collision(bg, player.x_location, player.y_location + player.height))
+	if (physics.Collision(bg, player.x_location + player.width, player.y_location + player.height, 0, 0, 0) || physics.Collision(bg, player.x_location, player.y_location + player.height, 0, 0, 0))
 	{
 		gravity = 0;
 		air_time = 0;
 		physics.GroundCheck(&player, bg);
 	}	
 
-	if (!physics.Collision(bg, player.x_location + player.width, player.y_location + player.height) && !physics.Collision(bg, player.x_location, player.y_location + player.height))
+	if (!physics.Collision(bg, player.x_location + player.width, player.y_location + player.height, 0, 0, 0) && !physics.Collision(bg, player.x_location, player.y_location + player.height, 0, 0, 0))
 	{
 		player.y_speed = gravity;
 		air_time += .1;
+	}
+
+	for (int i = 0; i < spring.num_springs; i++)
+	{
+		if (physics.OnPowerup(&player, spring.springs[i]))
+			cout << "yes!\n";
 	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_SPACE))
@@ -100,8 +125,12 @@ void Game::Update()
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_ENTER))
 	{
-		player.SetPower();
-		cout << player.curr_power << "\n";
+		if (clicked == 0)
+		{
+			player.SetPower();
+			Wait();
+			cout << player.curr_power << "\n";
+		}
 	}
 
 	al_get_mouse_state(&mouse_state);
@@ -148,19 +177,22 @@ void Game::Update()
 	if (mouse_state.buttons & 2)
 	{
 		if (player.GetPower() == 1)
-			basic.DrawLine(bg, mouse_state.x - 5, mouse_state.y - 5, brush);
+			basic.DrawLine(bg, mouse_state.x - 5 + x_scroll, mouse_state.y - 5 + y_scroll, brush);
 		if (player.GetPower() == 2)
 		{
-			if (spring.clicked == 0)
+			if (clicked == 0)
 			{
-				spring.AddSpring(mouse_state.x - 10, mouse_state.y - 10);
-				spring.Wait();
+				if (physics.Collision(bg, mouse_state.x, mouse_state.y + 20, 0, 0, 0) && !physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
+				{
+					spring.AddSpring(mouse_state.x - 10, mouse_state.y - 10);
+					Wait();
+				}
 			}
 		}
 	}
 
-	if (spring.clicked > 0)
-		spring.Wait();
+	if (clicked > 0)
+		Wait();
 	
 	/*else
 	{
@@ -178,10 +210,10 @@ void Game::Update()
 
 void Game::Draw()
 {
-	al_draw_bitmap(bg, 0, 0, 0);
+	al_draw_bitmap(bg, 0 - x_scroll, 0 - y_scroll, 0);
 	al_draw_bitmap(brush, mouse_state.x - 5, mouse_state.y - 5, 0);
-	spring.Draw();
-	al_draw_bitmap(player.bmp, player.x_location, player.y_location, 0);
+	spring.Draw(x_scroll, y_scroll);
+	al_draw_bitmap(player.bmp, player.x_location - x_scroll, player.y_location - y_scroll, 0);
 	
 
 	/*if (player.is_shooting == true)

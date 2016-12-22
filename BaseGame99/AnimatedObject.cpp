@@ -6,6 +6,8 @@ AnimatedObject::AnimatedObject()
 	bmp = al_load_bitmap("standing.png");
 	state = frame = increment = num_powers = curr_power = 0;
 	run_cycle = 1;
+	x_location = 0;
+	y_location = 600;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -102,6 +104,7 @@ void AnimatedObject::GivePower(int power)
 {
 	powers[num_powers] = power;
 	num_powers++;
+	cout << num_powers << "\n";
 }
 
 void AnimatedObject::SetPower()
@@ -109,13 +112,8 @@ void AnimatedObject::SetPower()
 	if (num_powers > 0)
 	{
 		curr_power++;
-		if (curr_power == 4)
+		if (curr_power == num_powers)
 			curr_power = 0;
-		for (int i = 0; i < num_powers; i++)
-		{
-			if (powers[curr_power] == 0)
-				curr_power++;
-		}
 	}
 	
 }

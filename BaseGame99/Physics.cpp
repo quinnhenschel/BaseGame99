@@ -10,7 +10,7 @@ Physics::~Physics()
 {
 }
 
-bool Physics::Collision(ALLEGRO_BITMAP* bg, int x, int y)
+bool Physics::Collision(ALLEGRO_BITMAP* bg, int x, int y, int rval, int gval, int bval)
 {
 	bool is_collision = false;
 
@@ -19,7 +19,7 @@ bool Physics::Collision(ALLEGRO_BITMAP* bg, int x, int y)
 
 	al_unmap_rgb(c, &r, &g, &b);
 
-	if (r == 0 && g == 0 && b == 0)
+	if (r == rval && g == gval && b == bval)
 		is_collision = true;
 
 	return is_collision;
@@ -45,4 +45,12 @@ void Physics::GroundCheck(AnimatedObject* p, ALLEGRO_BITMAP* bg)
 			}	
 		}
 	}
+}
+
+bool Physics::OnPowerup(AnimatedObject* p, Spring* s)
+{
+	bool is_on = false;
+	if (p->x_location + p->width > s->x  && (p->y_location + p->height > s->y && p->y_location + p->height < s->y + 20))
+		is_on = true;
+	return is_on;
 }
