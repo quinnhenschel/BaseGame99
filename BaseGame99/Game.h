@@ -15,6 +15,8 @@ public:
 
 
 	ALLEGRO_BITMAP* bg;
+	ALLEGRO_BITMAP* tutorial;
+	ALLEGRO_BITMAP* level1;
 	ALLEGRO_BITMAP* brush;
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
@@ -44,11 +46,11 @@ public:
 	Game();
 	~Game();
 
-	void Run();
+	void Run(int level);
 	bool Check_Collision(int direction);
 	bool Attack_LeftorRight();
 	void Wait();
-	void Update();
+	void Update(int level);
 	void Draw();
 
 

@@ -3,9 +3,9 @@
 
 Game::Game()
 {
-	bg = al_load_bitmap("level1.bmp");
-	bgw = al_get_bitmap_width(bg);
-	bgh = al_get_bitmap_height(bg);
+	tutorial = al_load_bitmap("tutorial_map.bmp");
+	level1 = al_load_bitmap("level1.bmp");
+
 	end = false;
 
 	x_scroll = y_scroll = 0;
@@ -35,11 +35,11 @@ Game::~Game()
 	al_destroy_bitmap(bg);
 }
 
-void Game::Run()
+void Game::Run(int level)
 {
 	while (!end)
 	{
-		Update();
+		Update(level);
 		Draw();
 		al_rest(0.003);
 	}
@@ -61,8 +61,16 @@ void Game::Wait()
 		clicked = 0;
 }
 
-void Game::Update()
+void Game::Update(int level)
 {
+	if (level == 1)
+		bg = tutorial;
+	if (level == 2)
+		bg = level1;
+
+	bgw = al_get_bitmap_width(bg);
+	bgh = al_get_bitmap_height(bg);
+
 	player.x_speed = player.y_speed = player.state = 0;
 	//player.is_shooting = false;
 
@@ -82,9 +90,9 @@ void Game::Update()
 		player.state = 1;
 			if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll < bgw - 1280 && player.x_location > 1280 / 2)
-					x_scroll += 3;
-				player.x_speed = 3;
+				if (x_scroll < bgw - 1280 && player.x_location - x_scroll > 1280 / 2)
+					x_scroll += 10;
+				player.x_speed = 10;
 			}
 	}	
 
@@ -93,9 +101,9 @@ void Game::Update()
 		player.state = 2;
 			if (!physics.Collision(bg, player.x_location - 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll > 0 && player.x_location < 1280 / 2)
-					x_scroll -= 3;
-				player.x_speed = -3;
+				if (x_scroll > 0 && player.x_location - x_scroll < 1280 / 2)
+					x_scroll -= 10;
+				player.x_speed = -10;
 			}
 	}
 
