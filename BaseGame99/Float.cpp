@@ -19,7 +19,7 @@ Float::~Float()
 void Float::AddTime(AnimatedObject* p)
 {
 	float_time++;
-	if (float_time > 150)
+	if (float_time > 175)
 	{
 		float_time = 0;
 		is_float = false;

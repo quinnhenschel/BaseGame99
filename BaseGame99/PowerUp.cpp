@@ -27,8 +27,11 @@ void PowerUp::DrawLine(ALLEGRO_BITMAP* bg, float x, float y, ALLEGRO_BITMAP* bru
 				ALLEGRO_COLOR c_curr = al_get_pixel(brush, i, j);
 				unsigned char r_curr, g_curr, b_curr;
 				al_unmap_rgb(c_curr, &r_curr, &g_curr, &b_curr);
-				if (r_curr == 255 && g_curr == 0 && b_curr == 0)
+				if (r_curr == 0 && g_curr == 0 && b_curr == 0)
+				{
+					cout << i << ", " << j << "\n";
 					al_put_pixel(x + i, y + j, brush_colour);
+				}
 			}
 		}
 

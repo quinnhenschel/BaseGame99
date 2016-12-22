@@ -16,7 +16,11 @@ Game::Game()
 
 	x_scroll = y_scroll = 0;
 
-	brush = al_load_bitmap("brush.png");
+	brush[0] = al_load_bitmap("black.png");
+	al_convert_mask_to_alpha(brush[0], al_map_rgb(255, 255, 255));
+	brush[1] = al_load_bitmap("green.png");
+	brush[2] = al_load_bitmap("purple.png");
+	brush[3] = al_load_bitmap("red.png");
 
 	//player_bitmap = al_load_bitmap("player.bmp");
 	//player.SetBitmap(player_bitmap);
@@ -69,6 +73,20 @@ void Game::Wait()
 	clicked++;
 	if (clicked > 50)
 		clicked = 0;
+}
+
+void Game::DrawBrush(AnimatedObject* p, int x, int y)
+{
+	ALLEGRO_BITMAP* curr_brush = NULL;
+	if (p->powers[p->curr_power] == 1)
+		curr_brush = brush[0];
+	if (p->powers[p->curr_power] == 2)
+		curr_brush = brush[1];
+	if (p->powers[p->curr_power] == 3)
+		curr_brush = brush[2];
+	if (p->powers[p->curr_power] == 4)
+		curr_brush = brush[3];
+	al_draw_bitmap(curr_brush, x, y, 0);
 }
 
 void Game::Update(int level)
@@ -261,16 +279,13 @@ void Game::Update(int level)
 	if (mouse_state.buttons & 2)
 	{
 		if (player.GetPower() == 1)
-			basic.DrawLine(bg, mouse_state.x - 5 + x_scroll, mouse_state.y - 5 + y_scroll, brush);
+			basic.DrawLine(bg, mouse_state.x - 5 + x_scroll, mouse_state.y - 5 + y_scroll, brush[0]);
 		if (player.GetPower() == 2)
 		{
 			if (clicked == 0)
 			{
-				if (true)
-				{
-					spring.AddSpring(mouse_state.x - 10 + x_scroll, mouse_state.y - 10 + y_scroll);
-					Wait();
-				}
+				spring.AddSpring(mouse_state.x - 10 + x_scroll, mouse_state.y - 10 + y_scroll);
+				Wait();
 			}
 		}
 		if (player.GetPower() == 3)
@@ -290,12 +305,9 @@ void Game::Update(int level)
 		{
 			if (clicked == 0)
 			{
-				if (physics.Collision(bg, mouse_state.x, mouse_state.y + floater.bmph, 0, 0, 0) && !physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
-				{
-					floater.x = mouse_state.x - (floater.bmpw / 2) + x_scroll;
-					floater.y = mouse_state.y - (floater.bmph / 2) + y_scroll;
-					Wait();
-				}
+				floater.x = mouse_state.x - (floater.bmpw / 2) + x_scroll;
+				floater.y = mouse_state.y - (floater.bmph / 2) + y_scroll;
+				Wait();
 			}
 		}
 	}
@@ -314,13 +326,16 @@ void Game::Update(int level)
 
 	player.Move();
 	player.Animate(&player);
+
+	if (player.y_location < 0)
+		player.y_location = 0;
 	/*player_attack.Move();*/
 }
 
 void Game::Draw()
 {
 	al_draw_bitmap(bg, 0 - x_scroll, 0 - y_scroll, 0);
-	al_draw_bitmap(brush, mouse_state.x - 5, mouse_state.y - 5, 0);
+	DrawBrush(&player, mouse_state.x - 5, mouse_state.y - 5);
 	al_draw_bitmap(floater.bmp, floater.x - x_scroll, floater.y - y_scroll, 0);
 	spring.Draw(x_scroll, y_scroll);
 	teleporter.Draw(x_scroll, y_scroll);

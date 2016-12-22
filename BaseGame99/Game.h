@@ -23,7 +23,7 @@ public:
 	ALLEGRO_BITMAP* level1;
 	int lvlw;
 	int lvlh;
-	ALLEGRO_BITMAP* brush;
+	ALLEGRO_BITMAP* brush[4];
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
 
@@ -56,6 +56,7 @@ public:
 	bool Check_Collision(int direction);
 	bool Attack_LeftorRight();
 	void Wait();
+	void DrawBrush(AnimatedObject* p, int x, int y);
 	void Update(int level);
 	void Draw();
 
