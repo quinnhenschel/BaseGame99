@@ -82,7 +82,7 @@ void Game::Update()
 		player.state = 1;
 			if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll < bgw - 1280 && player.x_location > 1280 / 2)
+				if (x_scroll < bgw - 1280 && player.x_location - x_scroll > 1280 / 2)
 					x_scroll += 3;
 				player.x_speed = 3;
 			}
@@ -93,7 +93,7 @@ void Game::Update()
 		player.state = 2;
 			if (!physics.Collision(bg, player.x_location - 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll > 0 && player.x_location < 1280 / 2)
+				if (x_scroll > 0 && player.x_location - x_scroll < 1280 / 2)
 					x_scroll -= 3;
 				player.x_speed = -3;
 			}
