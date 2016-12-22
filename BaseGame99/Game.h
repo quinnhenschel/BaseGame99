@@ -7,13 +7,23 @@ public:
 
 	Physics physics;
 
+	PowerUp basic;
+	Spring spring;
+
 	AnimatedObject player;
 	PlayerAttack player_attack;
 
 
 	ALLEGRO_BITMAP* bg;
+	ALLEGRO_BITMAP* brush;
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
+
+	int x_scroll;
+	int y_scroll;
+
+	int bgw;
+	int bgh;
 
 	float gravity;
 	float air_time;
@@ -24,7 +34,9 @@ public:
 	float angle;
 
 	int count;
-
+	
+	int clicked;
+	
 	//animatedObject player;
 
 	bool end;
@@ -35,6 +47,7 @@ public:
 	void Run();
 	bool Check_Collision(int direction);
 	bool Attack_LeftorRight();
+	void Wait();
 	void Update();
 	void Draw();
 

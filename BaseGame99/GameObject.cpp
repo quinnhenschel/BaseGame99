@@ -4,8 +4,8 @@
 GameObject::GameObject()
 {
 	bmp = NULL; //NULL is default for non-initialized pointers (means false or 0)
-	x_location = 100;
-	y_location = 100;
+	x_location = 0;
+	y_location = 0;
 	x_speed = 0;
 	y_speed = 0;
 }

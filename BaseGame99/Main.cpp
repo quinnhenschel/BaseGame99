@@ -23,7 +23,7 @@ void InitAllegro(int W, int H)
 
 	al_get_display_mode(0, &disp_data);
 
-	al_set_new_display_flags(ALLEGRO_FULLSCREEN);
+	al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
 	/*display = al_create_display(disp_data.width, disp_data.height);*/
 
 	al_rest(3);
