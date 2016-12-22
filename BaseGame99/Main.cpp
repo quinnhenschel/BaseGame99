@@ -97,9 +97,18 @@ void main()
 	int sh = 720;
 	InitAllegro(sw, sh);
 
-	Game game;
+	int level = 0;
 
-	game.Run();
+	Game game;
+	Menu menu;
+
+
+	if (level == 0)
+	{
+		level = menu.Run();
+	}
+	if (level != 0)
+		game.Run(level);
 
 	EndAllegro();
 }
