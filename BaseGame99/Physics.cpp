@@ -47,10 +47,10 @@ void Physics::GroundCheck(AnimatedObject* p, ALLEGRO_BITMAP* bg)
 	}
 }
 
-bool Physics::OnPowerup(AnimatedObject* p, Spring* s)
+bool Physics::OnPowerup(AnimatedObject* p, PowerUp* s)
 {
 	bool is_on = false;
-	if (p->x_location + p->width > s->x  && (p->y_location + p->height > s->y && p->y_location + p->height < s->y + 20))
+	if ((p->x_location + p->width > s->x  && p->x_location < s->x + s->bmpw) && (p->y_location + p->height > s->y && p->y_location + p->height < s->y + s->bmph))
 		is_on = true;
 	return is_on;
 }

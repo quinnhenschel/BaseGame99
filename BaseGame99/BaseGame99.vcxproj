@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedObject.cpp" />
+    <ClCompile Include="Float.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -90,9 +91,11 @@
     <ClCompile Include="PlayerAttack.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Spring.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedObject.h" />
+    <ClInclude Include="Float.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Main.h" />
@@ -102,6 +105,7 @@
     <ClInclude Include="PlayerAttack.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Spring.h" />
+    <ClInclude Include="Teleporter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

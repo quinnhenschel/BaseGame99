@@ -30,9 +30,12 @@ using namespace std;
 #include "AnimatedObject.h"
 #include "GameObject.h"
 #include "PowerUp.h"
+#include "Float.h"
+#include "Teleporter.h"
 #include "Spring.h"
 #include "Physics.h"
 #include "Game.h"
+
 
 
 

@@ -9,6 +9,8 @@ public:
 
 	PowerUp basic;
 	Spring spring;
+	Teleporter teleporter;
+	Float floater;
 
 	AnimatedObject player;
 	PlayerAttack player_attack;
@@ -16,7 +18,11 @@ public:
 
 	ALLEGRO_BITMAP* bg;
 	ALLEGRO_BITMAP* tutorial;
+	int tutw;
+	int tuth;
 	ALLEGRO_BITMAP* level1;
+	int lvlw;
+	int lvlh;
 	ALLEGRO_BITMAP* brush;
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
