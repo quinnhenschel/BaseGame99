@@ -27,7 +27,6 @@ using namespace std;
 #include "Menu.h"
 #include "PlayerAttack.h"
 #include "Player.h"
-#include "Enemy1.h"
 #include "AnimatedObject.h"
 #include "GameObject.h"
 #include "PowerUp.h"
