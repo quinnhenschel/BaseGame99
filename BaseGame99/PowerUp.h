@@ -4,6 +4,11 @@ class PowerUp
 public:
 	bool is_unlocked;
 	ALLEGRO_COLOR brush_colour;
+	int x;
+	int y;
+	ALLEGRO_BITMAP* bmp;
+	int bmpw;
+	int bmph;
 
 	PowerUp();
 	~PowerUp();

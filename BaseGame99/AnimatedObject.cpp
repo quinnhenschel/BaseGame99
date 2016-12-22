@@ -58,7 +58,7 @@ AnimatedObject::~AnimatedObject()
 
 void AnimatedObject::Animate(AnimatedObject* p)
 {
-	if (state == 0)
+	if (state == 0 || state == 3)
 	{
 		p->SetBitmap(al_load_bitmap("standing.png"));
 		frame = 0;

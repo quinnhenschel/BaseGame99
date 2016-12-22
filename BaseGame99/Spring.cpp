@@ -7,6 +7,8 @@ Spring::Spring()
 	brush_colour = al_map_rgb(0, 255, 0);
 	bmp = al_load_bitmap("spring.png");
 	num_springs = x = y = 0;
+	bmpw = al_get_bitmap_width(bmp);
+	bmph = al_get_bitmap_height(bmp);
 }
 
 

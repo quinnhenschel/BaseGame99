@@ -24,9 +24,13 @@ Game::Game()
 
 	count = 0;
 
+	teleporter.Initialize();
+
 	clicked = 0;
 	player.GivePower(1);
 	player.GivePower(2);
+	player.GivePower(3);
+	player.GivePower(4);
 }
 
 
@@ -57,7 +61,7 @@ bool Game::Attack_LeftorRight()
 void Game::Wait()
 {
 	clicked++;
-	if (clicked > 20)
+	if (clicked > 50)
 		clicked = 0;
 }
 
@@ -74,6 +78,12 @@ void Game::Update()
 
 	player.GetDimensions();
 
+	if (floater.is_float)
+	{
+		floater.x_speed = 0;
+		floater.y_speed = -3;
+	}
+
 	if (al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
 		end = true;
 
@@ -82,9 +92,11 @@ void Game::Update()
 		player.state = 1;
 			if (!physics.Collision(bg, player.x_location + player.width + 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location + player.width + 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll < bgw - 1280 && player.x_location > 1280 / 2)
+				if (x_scroll < bgw - 1280 && player.x_location - x_scroll > 1280 / 2)
 					x_scroll += 3;
 				player.x_speed = 3;
+				if (floater.is_float)
+					floater.x_speed = 3;
 			}
 	}	
 
@@ -93,9 +105,11 @@ void Game::Update()
 		player.state = 2;
 			if (!physics.Collision(bg, player.x_location - 3, player.y_location, 0, 0, 0) && !physics.Collision(bg, player.x_location - 3, player.y_location + player.height - 5, 0, 0, 0))
 			{
-				if (x_scroll > 0 && player.x_location < 1280 / 2)
+				if (x_scroll > 0 && player.x_location - x_scroll < 1280 / 2)
 					x_scroll -= 3;
 				player.x_speed = -3;
+				if (floater.is_float)
+					floater.x_speed = -3;
 			}
 	}
 
@@ -108,19 +122,67 @@ void Game::Update()
 
 	if (!physics.Collision(bg, player.x_location + player.width, player.y_location + player.height, 0, 0, 0) && !physics.Collision(bg, player.x_location, player.y_location + player.height, 0, 0, 0))
 	{
+		cout << "falling!\n";
 		player.y_speed = gravity;
 		air_time += .1;
 	}
 
 	for (int i = 0; i < spring.num_springs; i++)
 	{
-		if (physics.OnPowerup(&player, spring.springs[i]))
-			cout << "yes!\n";
+		if (physics.OnPowerup(&player, spring.springs[i]) && player.y_speed > 5)
+			player.y_speed = -200;
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (physics.OnPowerup(&player, teleporter.connection[i]))
+		{
+			if (teleporter.zap_wait == 0)
+			{
+				if (teleporter.connection[i]->id % 2 == 0)
+				{
+					player.x_location = teleporter.connection[0]->x;
+					player.y_location = teleporter.connection[0]->y;
+				}
+				else{
+					player.x_location = teleporter.connection[1]->x;
+					player.y_location = teleporter.connection[1]->y;
+				}
+				teleporter.TelWait();
+			}
+		}
+	}
+
+	if (teleporter.zap_wait > 0)
+		teleporter.TelWait();
+
+	if (physics.OnPowerup(&player, &floater))
+	{
+		if (floater.float_time == 0)
+		{
+			floater.x_speed = 0;
+			floater.y_speed = -3;
+			floater.is_float = true;
+		}
+	}
+
+	if (floater.is_float)
+	{
+		player.state = 3;
+		player.y_speed = floater.y_speed;
+		player.x_speed = floater.x_speed;
+		floater.x = player.x_location - 40;
+		floater.y = player.y_location - 20;
+		floater.AddTime(&player);
+	}
+
+	floater.x += floater.x_speed;
+	floater.y += floater.y_speed;
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_SPACE))
 	{
-		player.y_location = player.y_location - JUMP_HEIGHT;
+		if (floater.is_float == false)
+			player.y_location = player.y_location - JUMP_HEIGHT;
 	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_ENTER))
@@ -182,9 +244,34 @@ void Game::Update()
 		{
 			if (clicked == 0)
 			{
-				if (physics.Collision(bg, mouse_state.x, mouse_state.y + 20, 0, 0, 0) && !physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
+				if (true)
 				{
-					spring.AddSpring(mouse_state.x - 10, mouse_state.y - 10);
+					spring.AddSpring(mouse_state.x - 10 + x_scroll, mouse_state.y - 10 + y_scroll);
+					Wait();
+				}
+			}
+		}
+		if (player.GetPower() == 3)
+		{
+			if (clicked == 0)
+			{
+				if (!physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
+				{
+					teleporter.connection[teleporter.curr_tel]->x = mouse_state.x - 20 + x_scroll;
+					teleporter.connection[teleporter.curr_tel]->y = mouse_state.y - 50 + y_scroll;
+					teleporter.Next();
+					Wait();
+				}
+			}
+		}
+		if (player.GetPower() == 4)
+		{
+			if (clicked == 0)
+			{
+				if (physics.Collision(bg, mouse_state.x, mouse_state.y + floater.bmph, 0, 0, 0) && !physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
+				{
+					floater.x = mouse_state.x - (floater.bmpw / 2) + x_scroll;
+					floater.y = mouse_state.y - (floater.bmph / 2) + y_scroll;
 					Wait();
 				}
 			}
@@ -212,7 +299,9 @@ void Game::Draw()
 {
 	al_draw_bitmap(bg, 0 - x_scroll, 0 - y_scroll, 0);
 	al_draw_bitmap(brush, mouse_state.x - 5, mouse_state.y - 5, 0);
+	al_draw_bitmap(floater.bmp, floater.x - x_scroll, floater.y - y_scroll, 0);
 	spring.Draw(x_scroll, y_scroll);
+	teleporter.Draw(x_scroll, y_scroll);
 	al_draw_bitmap(player.bmp, player.x_location - x_scroll, player.y_location - y_scroll, 0);
 	
 

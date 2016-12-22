@@ -9,6 +9,8 @@ public:
 
 	PowerUp basic;
 	Spring spring;
+	Teleporter teleporter;
+	Float floater;
 
 	AnimatedObject player;
 	PlayerAttack player_attack;
