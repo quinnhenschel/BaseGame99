@@ -8,6 +8,7 @@ AnimatedObject::AnimatedObject()
 	run_cycle = 1;
 	x_location = 0;
 	y_location = 600;
+	lives = 3;
 
 	mana = 100;
 
@@ -96,12 +97,6 @@ void AnimatedObject::Animate(AnimatedObject* p)
 	}
 }
 
-void AnimatedObject::GetDimensions()
-{
-	height = al_get_bitmap_height(bmp);
-	width = al_get_bitmap_width(bmp);
-}
-
 void AnimatedObject::GivePower(int power)
 {
 	powers[num_powers] = power;
@@ -126,4 +121,11 @@ int AnimatedObject::GetPower()
 	{
 		return powers[curr_power];
 	}
+}
+
+void AnimatedObject::Die()
+{
+	x_location = 0;
+	y_location = 600;
+	lives -= 1;
 }

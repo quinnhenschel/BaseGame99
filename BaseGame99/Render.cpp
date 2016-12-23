@@ -20,13 +20,10 @@ void Render::Begin(ALLEGRO_BITMAP* bg)
 	al_draw_bitmap(bg, 0 - x_scroll, 0, 0);
 }
 
-void Render::ManaBar(AnimatedObject* p)
+void Render::ManaBar(ALLEGRO_BITMAP* bg, AnimatedObject* p)
 {
-	for (int i = 0; i < p->mana; i++)
-	{
-		for (int j = 0; j < 10; j++)
-			al_put_pixel(1200 + i - x_scroll, 50 + j, al_map_rgb(0, 0, 255));
-	}
+	al_draw_filled_rectangle(1170, 20, 1270, 25, al_map_rgb(50, 50, 50));
+	al_draw_filled_rectangle(1170, 20, 1170 + p->mana, 25, al_map_rgb(0, 0, 255));
 }
 
 void Render::Draw(GameObject* p)

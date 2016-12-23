@@ -7,9 +7,11 @@ Game::Game()
 	tutw = al_get_bitmap_width(tutorial);
 	tuth = al_get_bitmap_height(tutorial);
 	level1 = al_load_bitmap("level1.bmp");
-	lvlw= al_get_bitmap_width(level1);
+	lvlw = al_get_bitmap_width(level1);
 	lvlh = al_get_bitmap_height(level1);
-		
+
+	heart = al_load_bitmap("heart.png");
+
 	//bg = NULL;
 
 	end = false;
@@ -23,6 +25,28 @@ Game::Game()
 	/*player_attack_bitmap = al_load_bitmap("player_attack.bmp");
 	player_attack.bmp = player_attack_bitmap;*/
 
+	for (int i = 0; i < 3; i++)
+	{
+		pots[i] = new GameObject();
+		abilities[i] = new GameObject();
+		pots[i]->bmp = al_load_bitmap("mana.png");
+	}
+	pots[0]->x_location = 1850;
+	pots[0]->y_location = 380;
+	pots[1]->x_location = 1000;
+	pots[1]->y_location = 530;
+	pots[2]->x_location = 1200;
+	pots[2]->y_location = 568;
+
+	abilities[0]->bmp = al_load_bitmap("umbrella_chest.png");
+	abilities[0]->x_location = 700;
+	abilities[0]->y_location = 472;
+	abilities[1]->bmp = al_load_bitmap("teleport_chest.png");
+	abilities[1]->x_location = 1850;
+	abilities[1]->y_location = 578;
+	abilities[2]->bmp = al_load_bitmap("spring_chest.png");
+	abilities[2]->x_location = 1500;
+	abilities[2]->y_location = 380;
 
 	count = 0;
 
@@ -30,9 +54,21 @@ Game::Game()
 
 	clicked = 0;
 	player.GivePower(1);
-	player.GivePower(2);
-	player.GivePower(3);
-	player.GivePower(4);
+
+	line_count = 0;
+	string curr_line;
+	read.open("save.txt");
+	while (getline(read,curr_line))
+	{
+		if (line_count == 0)
+			player.lives = stoi(curr_line);
+		if (line_count == 1)
+			player.x_location = stoi(curr_line);
+		if (line_count == 0)
+			player.y_location = stoi(curr_line);
+		line_count++;
+	}
+	read.close();
 }
 
 
@@ -46,7 +82,7 @@ void Game::Run(int level)
 	while (!end)
 	{
 		Update(level);
-		Draw();
+		Draw(level);
 		al_rest(0.003);
 	}
 }
@@ -65,6 +101,15 @@ void Game::Wait()
 	clicked++;
 	if (clicked > 50)
 		clicked = 0;
+}
+
+void Game::Save()
+{
+	file.open("save.txt");
+	file << player.lives << "\n";
+	file << player.x_location << "\n";
+	file << player.y_location << "\n";
+	file.close();
 }
 
 void Game::Update(int level)
@@ -102,7 +147,9 @@ void Game::Update(int level)
 	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_ESCAPE))
+	{
 		end = true;
+	}
 
 	if (al_key_down(&key_state, ALLEGRO_KEY_D))
 	{
@@ -143,10 +190,16 @@ void Game::Update(int level)
 		air_time += .1;
 	}
 
+	if (physics.Collision(bg, player.x_location + player.width, player.y_location + player.height, 255, 0, 0) || physics.Collision(bg, player.x_location, player.y_location + player.height, 255, 0, 0))
+	{
+		player.Die();
+		render.x_scroll = 0;
+	}
+
 	for (int i = 0; i < spring.num_springs; i++)
 	{
 		if (physics.OnPowerup(&player, spring.springs[i]) && player.y_speed > 5)
-			player.y_speed = -200;
+			player.y_speed = -300;
 	}
 
 	for (int i = 0; i < 2; i++)
@@ -167,6 +220,33 @@ void Game::Update(int level)
 				teleporter.TelWait();
 			}
 		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (physics.OnObject(&player, pots[i]))
+		{
+			pots[i]->x_location = pots[i]->y_location = -100;
+			player.mana += 50;
+			if (player.mana > 100)
+				player.mana = 100;
+		}
+	}
+
+	if (physics.OnObject(&player, abilities[0]))
+	{
+		player.GivePower(4);
+		abilities[0]->x_location = abilities[0]->y_location = -100;
+	}
+	if (physics.OnObject(&player, abilities[1]))
+	{
+		player.GivePower(3);
+		abilities[1]->x_location = abilities[1]->y_location = -100;
+	}
+	if (physics.OnObject(&player, abilities[2]))
+	{
+		player.GivePower(2);
+		abilities[2]->x_location = abilities[2]->y_location = -100;
 	}
 
 	if (teleporter.zap_wait > 0)
@@ -251,24 +331,30 @@ void Game::Update(int level)
 		cout << mouse_state.x << ", " << mouse_state.y << "\n";
 	}
 
-	if (mouse_state.buttons & 2)
+	if (mouse_state.buttons & 2 && player.mana > 0)
 	{
 		if (player.GetPower() == 1)
+		{
 			basic.DrawLine(bg, mouse_state.x - 5 + render.x_scroll, mouse_state.y - 5, render.brush[0]);
+			player.mana -= 1;
+		}
+		
 		if (player.GetPower() == 2)
 		{
-			if (clicked == 0)
+			if (clicked == 0 && player.mana > 40)
 			{
+				player.mana -= 40;
 				spring.AddSpring(mouse_state.x - 10 + render.x_scroll, mouse_state.y - 10);
 				Wait();
 			}
 		}
 		if (player.GetPower() == 3)
 		{
-			if (clicked == 0)
+			if (clicked == 0 && player.mana > 20)
 			{
 				if (!physics.Collision(bg, mouse_state.x, mouse_state.y, 0, 0, 0))
 				{
+					player.mana -= 20;
 					teleporter.connection[teleporter.curr_tel]->x = mouse_state.x - 20 + render.x_scroll;
 					teleporter.connection[teleporter.curr_tel]->y = mouse_state.y - 50;
 					teleporter.Next();
@@ -278,8 +364,9 @@ void Game::Update(int level)
 		}
 		if (player.GetPower() == 4)
 		{
-			if (clicked == 0)
+			if (clicked == 0 && player.mana > 75)
 			{
+				player.mana -= 75;
 				floater.x = mouse_state.x - (floater.bmpw / 2) + render.x_scroll;
 				floater.y = mouse_state.y - (floater.bmph / 2);
 				Wait();
@@ -305,16 +392,32 @@ void Game::Update(int level)
 	if (player.y_location < 0)
 		player.y_location = 0;
 	/*player_attack.Move();*/
+
+	if (end == true)
+		Save();
 }
 
-void Game::Draw()
+void Game::Draw(int level)
 {
 	render.Begin(bg);
+	render.ManaBar(bg, &player);
 
 	render.DrawBrush(&player, mouse_state.x - 5, mouse_state.y - 5);
 	render.DrawPowerUps(&spring, &teleporter, &floater);
 
 	render.Draw(&player);
+	
+	if (level == 2)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			render.Draw(pots[i]);
+			render.Draw(abilities[i]);
+		}
+	}
+
+	for (int i = 0; i < player.lives; i++)
+		al_draw_bitmap(heart, 0 + (i * 50), 0, 0);
 	
 
 	/*if (player.is_shooting == true)

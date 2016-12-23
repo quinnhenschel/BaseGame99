@@ -16,6 +16,8 @@ public:
 	AnimatedObject player;
 	PlayerAttack player_attack;
 
+	GameObject* pots[3];
+	GameObject* abilities[3];
 
 	ALLEGRO_BITMAP* bg;
 	ALLEGRO_BITMAP* tutorial;
@@ -27,8 +29,11 @@ public:
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
 
-	int x_scroll;
-	int y_scroll;
+	ALLEGRO_BITMAP* heart;
+
+	ofstream file;
+	ifstream read;
+	int line_count;
 
 	int bgw;
 	int bgh;
@@ -58,10 +63,7 @@ public:
 	void Wait();
 	void DrawBrush(AnimatedObject* p, int x, int y);
 	void Update(int level);
-	void Draw();
-
-
-	
-
+	void Draw(int level);
+	void Save();
 };
 

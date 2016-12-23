@@ -6,8 +6,7 @@ public:
 	int run_cycle;
 	int frame;
 	int increment;
-	int height;
-	int width;
+	int lives;
 
 	int powers[4];
 	int num_powers;
@@ -22,9 +21,9 @@ public:
 	~AnimatedObject();
 
 	void Animate(AnimatedObject* p);
-	void GetDimensions();
 	void GivePower(int power);
 	void SetPower();
 	int GetPower();
+	void Die();
 };
 

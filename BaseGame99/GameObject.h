@@ -9,6 +9,8 @@ public:
 	int y_location;
 	int x_speed;
 	int y_speed;
+	int height;
+	int width;
 
 	ALLEGRO_BITMAP* bmp;
 
@@ -16,5 +18,6 @@ public:
 
 	void Draw();
 	void Move();
+	void GetDimensions();
 };
 

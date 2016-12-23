@@ -54,3 +54,12 @@ bool Physics::OnPowerup(AnimatedObject* p, PowerUp* s)
 		is_on = true;
 	return is_on;
 }
+
+bool Physics::OnObject(AnimatedObject* p, GameObject* g)
+{
+	bool is_on = false;
+	g->GetDimensions();
+	if ((p->x_location + p->width > g->x_location  && p->x_location < g->x_location + g->width) && (p->y_location + p->height > g->y_location && p->y_location + p->height < g->y_location + g->height))
+		is_on = true;
+	return is_on;
+}

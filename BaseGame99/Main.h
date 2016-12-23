@@ -5,6 +5,7 @@
 using namespace std;
 #include "math.h"
 #include <sstream>
+#include "fstream"
 
 #include "allegro5/allegro.h"
 //use image addon for loading images, dialog boxes, and primitive shapes

@@ -35,3 +35,9 @@ void GameObject::Move()
 	x_location += x_speed;
 	y_location += y_speed;
 }
+
+void GameObject::GetDimensions()
+{
+	height = al_get_bitmap_height(bmp);
+	width = al_get_bitmap_width(bmp);
+}
