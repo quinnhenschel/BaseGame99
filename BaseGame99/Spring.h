@@ -9,6 +9,5 @@ public:
 	~Spring();
 
 	void AddSpring(int x1, int y1);
-	void Draw(int scrollx, int scrolly);
 };
 

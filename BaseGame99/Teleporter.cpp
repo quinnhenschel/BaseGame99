@@ -6,6 +6,7 @@ Teleporter::Teleporter()
 	is_unlocked = true;
 	curr_tel = 0;
 	zap_wait = 0;
+	type = 1;
 }
 
 
@@ -28,10 +29,7 @@ void Teleporter::Initialize()
 
 void Teleporter::Draw(int scrollx, int scrolly)
 {
-	for (int i = 0; i < 2; i++)
-	{
-		al_draw_bitmap(connection[i]->bmp, connection[i]->x - scrollx, connection[i]->y - scrolly, 0);
-	}
+	
 }
 
 void Teleporter::Next()

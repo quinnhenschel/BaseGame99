@@ -34,6 +34,7 @@ using namespace std;
 #include "Teleporter.h"
 #include "Spring.h"
 #include "Physics.h"
+#include "Render.h"
 #include "Game.h"
 
 

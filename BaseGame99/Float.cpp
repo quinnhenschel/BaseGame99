@@ -9,6 +9,7 @@ Float::Float()
 	x = y = -100;
 	bmpw = al_get_bitmap_width(bmp);
 	bmph = al_get_bitmap_height(bmp);
+	type = 2;
 }
 
 

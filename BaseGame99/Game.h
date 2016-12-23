@@ -6,6 +6,7 @@ public:
 	ALLEGRO_MOUSE_STATE mouse_state;
 
 	Physics physics;
+	Render render;
 
 	PowerUp basic;
 	Spring spring;
@@ -23,7 +24,6 @@ public:
 	ALLEGRO_BITMAP* level1;
 	int lvlw;
 	int lvlh;
-	ALLEGRO_BITMAP* brush[4];
 	ALLEGRO_BITMAP* player_bitmap;
 	ALLEGRO_BITMAP* player_attack_bitmap;
 

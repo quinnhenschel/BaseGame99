@@ -6,7 +6,7 @@ Spring::Spring()
 	is_unlocked = true;
 	brush_colour = al_map_rgb(0, 255, 0);
 	bmp = al_load_bitmap("spring.png");
-	num_springs = x = y = 0;
+	num_springs = x = y = type = 0;
 	bmpw = al_get_bitmap_width(bmp);
 	bmph = al_get_bitmap_height(bmp);
 }
@@ -40,12 +40,4 @@ void Spring::AddSpring(int x1, int y1)
 	springs[num_springs]->x = x1;
 	springs[num_springs]->y = y1;
 	num_springs++;
-}
-
-void Spring::Draw(int scrollx, int scrolly)
-{
-	for (int i = 0; i < num_springs; i++)
-	{
-		al_draw_bitmap(springs[i]->bmp, springs[i]->x - scrollx, springs[i]->y - scrolly, 0);
-	}
 }

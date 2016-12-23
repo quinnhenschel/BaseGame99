@@ -9,6 +9,8 @@ AnimatedObject::AnimatedObject()
 	x_location = 0;
 	y_location = 600;
 
+	mana = 100;
+
 	for (int i = 0; i < 4; i++)
 	{
 		powers[i] = 0;

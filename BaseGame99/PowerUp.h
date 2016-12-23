@@ -9,6 +9,7 @@ public:
 	ALLEGRO_BITMAP* bmp;
 	int bmpw;
 	int bmph;
+	int type;
 
 	PowerUp();
 	~PowerUp();
